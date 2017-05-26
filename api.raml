@@ -1,0 +1,141 @@
+#%RAML 1.0
+title: EditEngine
+version: v1
+mediaType: application/json
+baseUri: http://api.editengine.io/{version}
+types:
+  Timeline:
+    type: object
+    description: A timeline represents the entire contents of a video edit over time, in seconds. A timeline consists of layers called tracks. Tracks are composed of titles, images or video segments referred to as clips which are placed along the track at specific starting point and lasting for a specific amount of time.
+    properties:
+      timeline:
+        type: object
+        description: The main timeline object with global settings and an array of tracks.
+        properties:
+          filter:
+            description: A filter effect to apply to the entire timeline.
+          background:
+            description: A hexidecimal value for the timeline background colour.
+          tracks:
+            type: Track[]
+            description: A timeline consists of an array of tracks, each track containing clips. Tracks are layered on top of each other in the same order they are added to the array with the top most track layered over the top of those below it. Ensure that a track containing titles is the top most track so that it is displayed above videos and images.
+
+  Track:
+    type: object
+    description: A track contains an array of clips. Tracks are layered on top of each other in the order in the array. The top most track will render on top of those below it.
+    properties:
+      clips: Clip[]
+
+  Clip:
+    type: object
+    discriminator: type
+    properties:
+      type:
+        enum: [video, image, title]
+        description: The type of clip
+      src:
+        description: The video/image source URL or title text string. If video or image, URL must be publicly accessible or include credentials
+      start:
+        type: number
+        description: The start position on the timeline, in seconds
+      in:
+        type: number
+        description: The in trim point of the clip, in seconds. For titles and images this will be 0. For video files this will be the point in seconds to trim the clip from - i.e if the video is 20 seconds long and you want to trim the clip to start at the 5 second mark.
+      out:
+        type: number
+        description: The out trim point of the clip, in seconds. For titles and images this will be the time you want the clip to play for - i.e. a value of 2 will display an image for 2 seconds if the in mark is set to 0. For video files this will be a point in seconds to trim the clip to - i.e if the video is 20 seconds long and you want to trim the clip to end at the 10 second mark.
+
+  TitleClip:
+    type: Clip
+    discriminatorValue: title
+    description: This is a clip with specific options for rendering text such as font, colour, font size and position. The src attribute is the text to be rendered.
+    properties:
+      options?:
+        type: object
+        description: Additional options for title clip types
+        properties:
+          font: string
+          size: integer
+          color: string
+          position: string
+
+  ImageClip:
+    type: Clip
+    discriminatorValue: image
+    properties:
+      options?:
+        type: object
+        description: Additional options for image clip types
+        properties:
+          effect: string
+
+  VideoClip:
+    type: Clip
+    discriminatorValue: video
+    properties:
+      options?:
+        type: object
+        description: Additional options for video clip types
+
+  Queued:
+    type: object
+    properties:
+      message:
+        description: Success response message
+      id:
+        description: The id of the render task in UUID format
+
+/render:
+  post:
+    description: Render the contents of a timeline as a video file.
+    body:
+      application/json:
+        type: Timeline
+        example:
+          timeline:
+            filter: "greyscale"
+            background: "#000000"
+            tracks:
+              -
+                clips:
+                  -
+                    type: "title"
+                    src: "Hello World"
+                    start: 0
+                    in: 4.0
+                    out: 7.0
+                    options:
+                      font: "ostrich-sans"
+                      size: 24
+                      color: "#FF0000"
+                      position: "center"
+                  -
+                    type: "image"
+                    src: "https://s3-ap-northeast-1.amazonaws.com/my-bucket/my-image.jpg"
+                    start: 3
+                    in: 14.0
+                    out: 16.4
+                    options:
+                      effect: "zoom"
+              -
+                clips:
+                  -
+                    type: "video"
+                    src: "https://s3-ap-northeast-1.amazonaws.com/my-bucket/my-clip-1.mp4"
+                    start: 0
+                    in: 4.0
+                    out: 7.0
+                  -
+                    type: "video"
+                    src: "https://s3-ap-northeast-1.amazonaws.com/my-bucket/my-clip-2.mp4"
+                    start: 3
+                    in: 14.0
+                    out: 16.4
+    responses:
+       201:
+        body:
+          application/json:
+            type: Queued
+            example:
+              message: "Render Successfuly Queued"
+              id: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
