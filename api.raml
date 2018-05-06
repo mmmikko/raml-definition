@@ -6,6 +6,7 @@ baseUri: http://api.shotstack.io/{version}
 description: |
   The Shotstack API is a video editing service that allows for the programatic
   creation of videos using JSON.
+
 securitySchemes:
   DeveloperKey:
     description: |
@@ -20,7 +21,8 @@ securitySchemes:
       responses:
         403:
           description: |
-            Denied
+            Access is denied
+
 types:
   Edit:
     description: |
@@ -237,14 +239,38 @@ types:
     properties:
       success: boolean
       message: string
-      data: Queued
+      response: QueuedResponseData
 
-  Queued:
+  QueuedResponseData:
     properties:
       message:
         description: Success response message
       id:
         description: The id of the render task in UUID format
+
+  RenderResponse:
+    properties:
+      success: boolean
+      message: string
+      response: RenderResponseData
+
+  RenderResponseData:
+    properties:
+      status:
+        description: The status of the render task
+        type: string
+        enum: [queued, fetching, rendering, saving, done, failed]
+      id:
+        description: The id of the render task in UUID format
+      owner:
+        description: The owner id of the render task
+      data:
+        type: Edit
+        description: The timeline and output data to be rendered
+      created:
+        description: The time the render task was initially queued
+      updated:
+        description: The time the render status was last updated
 
 /render:
   post:
@@ -253,54 +279,7 @@ types:
     body:
       application/json:
         type: Edit
-        example:
-          timeline:
-            soundtrack:
-              src: "music.mp3"
-              effect: "fadeInOut"
-            background: "#000000"
-            tracks:
-              -
-                clips:
-                  -
-                    type: "title"
-                    src: "Hello World"
-                    start: 0
-                    in: 0.0
-                    out: 4.0
-                    transition:
-                      in: "fadeIn"
-                      out: "fadeOut"
-                    options:
-                      effect: "minimal"
-                  -
-                    type: "image"
-                    src: "https://s3-ap-northeast-1.amazonaws.com/my-bucket/my-image.jpg"
-                    start: 3
-                    in: 14.0
-                    out: 16.4
-                    options:
-                      effect: "zoomIn"
-                      filter: "greyscale"
-              -
-                clips:
-                  -
-                    type: "video"
-                    src: "https://s3-ap-northeast-1.amazonaws.com/my-bucket/my-clip-1.mp4"
-                    start: 0
-                    in: 4.0
-                    out: 7.0
-                  -
-                    type: "video"
-                    src: "https://s3-ap-northeast-1.amazonaws.com/my-bucket/my-clip-2.mp4"
-                    start: 3
-                    in: 14.0
-                    out: 16.4
-                    transition:
-                      out: "fadeOut"
-          output:
-            format: "mp4"
-            resolution: "sd"
+        example: !include examples/timeline.raml
     responses:
        201:
         body:
@@ -309,9 +288,36 @@ types:
             example:
               success: true
               message: "Created"
-              data:
+              response:
                 message: "Render Successfuly Queued"
                 id: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
+  /{id}:
+    uriParameters:
+      id:
+        type: string
+        description: The id of the timeline render task in UUID format
+        example: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
+        pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    get:
+      description: Get the rendering status and details of a timeline by ID.
+      securedBy: DeveloperKey
+      responses:
+        200:
+          body:
+            application/json:
+              type: RenderResponse
+              example:
+                success: true
+                message: "OK"
+                response:
+                  status: "rendering"
+                  id: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
+                  owner: "5ca6hu7s9k"
+                  data: !include examples/timeline.raml
+                  created: "2018-05-06T03:33:25.425Z"
+                  updated: "2018-05-06T03:33:48.521Z"
+
+
 
 documentation:
  - title: Introduction
