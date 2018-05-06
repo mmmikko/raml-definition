@@ -4,12 +4,12 @@ version: v1
 mediaType: application/json
 baseUri: http://api.shotstack.io/{version}
 description: |
-  The ShotStack API is a video editing service that allows for the programatic
+  The Shotstack API is a video editing service that allows for the programatic
   creation of videos using JSON.
 securitySchemes:
   DeveloperKey:
     description: |
-      Secured using an API developer key as specified
+      Secured using an API developer key as specified.
     type: x-custom
     describedBy:
       headers:
@@ -25,7 +25,7 @@ types:
   Edit:
     description: |
       An edit defines the content of the video in a timeline and the output
-      format
+      format.
     properties:
       timeline: Timeline
       output: Output
@@ -108,12 +108,12 @@ types:
       effect?:
         description: |
           Uses a preset to apply font properties and motion effect to the title.
-        type:
-          enum: [minimal, blockbuster, vogue, sketchy, skinny]
+        type: string
+        enum: [minimal, blockbuster, vogue, sketchy, skinny]
       filter?:
         description: A filter effect to apply to the text clip.
-        type:
-          enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
+        type: string
+        enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
 
   ImageClip:
     description: |
@@ -122,6 +122,7 @@ types:
       png file.
     properties:
       type:
+        type: string
         enum: [image]
         description: |
           The type of clip - must be set to <b>image</b> for image clips.
@@ -153,12 +154,12 @@ types:
     properties:
       effect?:
         description: A motion effect to apply to the image clip.
-        type:
-          enum: [zoomIn, zoomOut]
+        type: string
+        enum: [zoomIn, zoomOut]
       filter?:
         description: A filter effect to apply to the image clip.
-        type:
-          enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
+        type: string
+        enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
 
   VideoClip:
     description: |
@@ -168,6 +169,7 @@ types:
       and end point to use.
     properties:
       type:
+        type: string
         enum: [video]
         description: |
           The type of clip - must be set to <b>video</b> for video clips
@@ -202,34 +204,34 @@ types:
     properties:
       effect?:
         description: A motion effect to apply to the video clip.
-        type:
-          enum: [zoomIn, zoomOut]
+        type: string
+        enum: [zoomIn, zoomOut]
       filter?:
         description: A filter effect to apply to the video clip.
-        type:
-          enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
+        type: string
+        enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
 
   Transition:
     description: In and out transitions for a clip - i.e. fade in and fade out
     properties:
       in?:
         description: The transition in
-        type:
-          enum: [fadeIn]
+        type: string
+        enum: [fadeIn]
       out?:
         description: The transition out
-        type:
-          enum: [fadeOut]
+        type: string
+        enum: [fadeOut]
 
   Output:
     description: The video output format
     properties:
       format:
-        type:
-          enum: [mp4, gif]
+        type: string
+        enum: [mp4, gif]
       resolution:
-        type:
-          enum: [preview, mobile, sd, hd, '1080']
+        type: string
+        enum: [preview, mobile, sd, hd, '1080']
 
   QueuedResponse:
     properties:
