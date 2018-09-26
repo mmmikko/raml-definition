@@ -40,8 +40,12 @@ types:
       along the track at specific starting point and lasting for a specific
       amount of time.
     properties:
-      soundtrack: Soundtrack
+      soundtrack?:
+        type: Soundtrack
+        description: |
+          A music or audio soundtrack in mp3 format.
       background:
+        type: string
         description: A hexidecimal value for the timeline background colour.
       tracks:
         type: Track[]
@@ -53,9 +57,14 @@ types:
           track so that it is displayed above videos and images.
 
   Soundtrack:
+    description: |
+      A music or audio file in mp3 format that plays for the duration of the
+      rendered video or the length of the audio file, which ever is shortest.
     properties:
       src:
-        description: The path to the audio file
+        description: |
+          The URL of the audio file. The URL must be publicly accessible or
+          include credentials.
       effect:
         description: The effect to apply to the audio file
 
@@ -212,6 +221,9 @@ types:
         description: A filter effect to apply to the video clip.
         type: string
         enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
+      volume?:
+        description: Set the volume for the clip (defaults to 0, i.e. silent)
+        type: number
 
   Transition:
     description: In and out transitions for a clip - i.e. fade in and fade out
