@@ -44,9 +44,11 @@ types:
         type: Soundtrack
         description: |
           A music or audio soundtrack in mp3 format.
-      background:
+      background?:
         type: string
-        description: A hexidecimal value for the timeline background colour.
+        description: |
+          A hexidecimal value for the timeline background colour. Defaults to
+          black (#000000).
       tracks:
         type: Track[]
         description: |
