@@ -224,7 +224,9 @@ types:
         type: string
         enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
       volume?:
-        description: Set the volume for the clip (defaults to 0, i.e. silent)
+        description: |
+          Set the volume for the clip between 0 and 1 where 0 is muted and 1 is
+          full volume (defaults to 0).
         type: number
 
   Transition:
