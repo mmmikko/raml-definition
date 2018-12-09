@@ -13,10 +13,11 @@ timeline:
           in: 0.0
           out: 4.0
           transition:
-            in: "fadeIn"
-            out: "fadeOut"
+            in: "fade"
+            out: "fade"
           options:
-            effect: "minimal"
+            style: "minimal"
+            effect: "slideRight"
         -
           type: "image"
           src: "https://s3-ap-northeast-1.amazonaws.com/my-bucket/my-image.jpg"
@@ -41,7 +42,7 @@ timeline:
           in: 14.0
           out: 16.4
           transition:
-            out: "fadeOut"
+            out: "wipeLeft"
 output:
   format: "mp4"
   resolution: "sd"

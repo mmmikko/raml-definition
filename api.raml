@@ -118,15 +118,19 @@ types:
       font properties and motion effects for the title using a pre-configured
       preset.
     properties:
-      effect?:
+      style?:
         description: |
-          Uses a preset to apply font properties and motion effect to the title.
+          Uses a preset to apply font properties and stylng to the title.
         type: string
-        enum: [minimal, blockbuster, vogue, sketchy, skinny]
+        enum: !include styles/styles.raml
+      effect?:
+        description: A motion effect to apply to the title clip.
+        type: string
+        enum: !include effects/effects.raml
       filter?:
         description: A filter effect to apply to the text clip.
         type: string
-        enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
+        enum: !include filters/filters.raml
 
   ImageClip:
     description: |
@@ -168,11 +172,11 @@ types:
       effect?:
         description: A motion effect to apply to the image clip.
         type: string
-        enum: [zoomIn, zoomOut]
+        enum: !include effects/effects.raml
       filter?:
         description: A filter effect to apply to the image clip.
         type: string
-        enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
+        enum: !include filters/filters.raml
 
   VideoClip:
     description: |
@@ -218,11 +222,11 @@ types:
       effect?:
         description: A motion effect to apply to the video clip.
         type: string
-        enum: [zoomIn, zoomOut]
+        enum: !include effects/effects.raml
       filter?:
         description: A filter effect to apply to the video clip.
         type: string
-        enum: [boost, contrast, darken, greyscale, lighten, muted, negative]
+        enum: !include filters/filters.raml
       volume?:
         description: |
           Set the volume for the clip between 0 and 1 where 0 is muted and 1 is
@@ -235,11 +239,11 @@ types:
       in?:
         description: The transition in
         type: string
-        enum: [fadeIn]
+        enum: !include transitions/transitions.raml
       out?:
         description: The transition out
         type: string
-        enum: [fadeOut]
+        enum: !include transitions/transitions.raml
 
   Output:
     description: The video output format
