@@ -89,7 +89,9 @@ types:
     properties:
       asset:
         type: TitleAsset | ImageAsset | VideoAsset
-        description: The type of asset to display for the duration of this Clip
+        description: |
+          The type of asset to display for the duration of this Clip.
+          Value must be one of <b>TitleAsset</b>, <b>ImageAsset</b> or <b>VideoAsset</b>.
       start:
         type: number
         description: The start position of the Clip on the timeline, in seconds.
@@ -108,10 +110,11 @@ types:
 
   TitleAsset:
     description: |
-      The TitleAsset clip type lets you create video titles from a text string and 
+      The TitleAsset clip type lets you create video titles from a text string and
       apply styling.
+    type: object
     properties:
-      text:
+      title:
         type: string
         description: The title text string - i.e. "My Title".
       style?:
@@ -125,8 +128,9 @@ types:
       The ImageAsset is used to create video from images. The src
       must be a publicly accesible URL to an image resource such as a jpg or
       png file.
+    type: object
     properties:
-      src:
+      image:
         type: string
         description: |
           The image source URL. The URL must be publicly accessible or
@@ -136,19 +140,20 @@ types:
     description: |
       The VideoAsset is used to create video sequences from video files. The src
       must be a publicly accesible URL to a video resource such as an mp4 file.
-      The in and out attributes of the parent Clip let you trim the video file 
+      The in and out attributes of the parent Clip let you trim the video file
       by setting the start and end point to use.
+    type: object
     properties:
-      src:
+      video:
         type: string
         description: |
           The video source URL. The URL must be publicly accessible or
           include credentials.
-      trim:
+      trim?:
         type: number
         description: |
-          The start trim point of the clip, in seconds. Videos will start from the 
-          in trim point. The video will play until the file ends or the 
+          The start trim point of the clip, in seconds (defaults to 0). Videos will start from the
+          in trim point. The video will play until the file ends or the
           Clip length is reached.
       volume?:
         description: |
