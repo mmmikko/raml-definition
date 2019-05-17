@@ -24,5 +24,8 @@ node convert.js
 openapi-generator generate -i ./build/api.oas3.json -g php -o ./build/php --invoker-package Shotstack
 
 printf "\n========================================= \n"
-printf "\nDONE\n-- Now check for strange class names in defaultApi - i.e. gETRender()\n"
+printf "\nDONE"
+printf "\n\nNow fix:"
+printf "\n-- strange class names in defaultApi - i.e. gETRender()\n"
+printf "\n-- OneOfTitleAssetImageAssetVideoAsset to Asset - see commit: http://tiny.cc/8jyu6y\n"
 printf "\n========================================= \n"
