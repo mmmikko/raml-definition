@@ -44,3 +44,8 @@ Note: RestUnited currently doesn't detect the response type for each endpoint. M
 | ------------ | ------ | -------------- |
 | /render      | POST   | QueuedResponse |
 | /render/{id} | GET    | RenderResponse |
+
+
+### Experimental
+
+See build.sh for local SDK and Docs generator

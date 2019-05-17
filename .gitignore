@@ -1,2 +1,6 @@
 .idea
 api.zip
+api*.zip
+node_modules
+api.oas3.json
+build
