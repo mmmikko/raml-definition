@@ -21,11 +21,24 @@ mkdir build
 node convert.js
 
 # PHP SDK
-openapi-generator generate -i ./build/api.oas3.json -g php -o ./build/php --invoker-package Shotstack
+openapi-generator generate -i ./build/api.oas3.json -g php -o ./build/php \
+                  --invoker-package Shotstack\\\\CLient
 
 printf "\n========================================= \n"
-printf "\nDONE"
+printf "\nPHP SDK Generated"
 printf "\n\nNow fix:"
 printf "\n-- strange class names in defaultApi - i.e. gETRender()\n"
 printf "\n-- OneOfTitleAssetImageAssetVideoAsset to Asset - see commit: http://tiny.cc/8jyu6y\n"
+printf "\n========================================= \n"
+
+# Ruby SDK
+
+openapi-generator generate -i ./build/api.oas3.json -g ruby -o ./build/ruby \
+                  --additional-properties=moduleName="Shotstack"
+
+printf "\n========================================= \n"
+printf "\nRuby SDK Generated"
+printf "\n\nNow fix:"
+printf "\n-- strange class names in defaultApi - i.e. g_et_ender()\n"
+printf "\n-- OneOfTitleAssetImageAssetVideoAsset to Asset - see commit: http://tiny.cc/5i4w6y\n"
 printf "\n========================================= \n"
