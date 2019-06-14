@@ -224,6 +224,8 @@ types:
         description: The id of the render task in UUID format
       owner:
         description: The owner id of the render task
+      url?:
+        description: The URL of the final video. This will only be available if status is done.
       data:
         type: Edit
         description: The timeline and output data to be rendered
@@ -259,7 +261,7 @@ types:
         example: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
         pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
     get:
-      description: Get the rendering status and details of a timeline by ID.
+      description: Get the rendering status, video url and details of a timeline by ID.
       securedBy: DeveloperKey
       responses:
         200:
@@ -273,6 +275,7 @@ types:
                   status: "rendering"
                   id: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
                   owner: "5ca6hu7s9k"
+                  url: "http://---------------------------------------"
                   data: !include examples/timeline.raml
                   created: "2018-05-06T03:33:25.425Z"
                   updated: "2018-05-06T03:33:48.521Z"
