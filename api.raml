@@ -67,8 +67,10 @@ types:
         description: |
           The URL of the mp3 audio file. The URL must be publicly accessible or
           include credentials.
-      effect:
+      effect?:
         description: The effect to apply to the audio file
+        type: string
+        enum: !include effects/soundtrack.raml
 
   Track:
     description: |
