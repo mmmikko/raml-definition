@@ -113,7 +113,7 @@ types:
   TitleAsset:
     description: |
       The TitleAsset clip type lets you create video titles from a text string and
-      apply styling.
+      apply styling and positioning.
     type: object
     properties:
       type:
@@ -128,6 +128,12 @@ types:
           Uses a preset to apply font properties and stylng to the title.
         type: string
         enum: !include styles/styles.raml
+      position?:
+        description: |
+          Place the title in one of nine predefined positions of the viewport.
+        type: string
+        enum: [top, topRight, right, bottomRight, bottom, bottomLeft, left, topLeft, center]
+        default: center
 
   ImageAsset:
     description: |
