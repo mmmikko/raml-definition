@@ -22,7 +22,7 @@ node convert.js
 
 # PHP SDK
 openapi-generator generate -i ./build/api.oas3.json -g php -o ./build/php \
-                  --invoker-package Shotstack\\\\CLient
+                  --invoker-package Shotstack\\\\Client
 
 printf "\n========================================= \n"
 printf "\nPHP SDK Generated"

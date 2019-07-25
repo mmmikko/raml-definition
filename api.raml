@@ -128,12 +128,34 @@ types:
           Uses a preset to apply font properties and stylng to the title.
         type: string
         enum: !include styles/styles.raml
+      color?:
+        description: |
+          Set the text color using HTML color notation including hexidecimal, rgb, rgba and 
+          color name. Transparency is supported by setting the last two characters of a hex string, 
+          i.e. #ffffff33 or using rgba, i.e. rgba(255, 255, 255, 0.5).
+        type: string
+        default: white
+      size?:
+        description: |
+          Set the relative size of the text using predefined sizes from xx-small to xx-large.
+        type: string
+        enum: [xx-small, x-small, small, medium, large, x-large, xx-large]
+        default: medium
+      background?:
+        description: |
+          Apply a background color behind the text using HTML color notation with support for 
+          transparency. Useful for subtitles.
+        type: string
       position?:
         description: |
           Place the title in one of nine predefined positions of the viewport.
         type: string
         enum: [top, topRight, right, bottomRight, bottom, bottomLeft, left, topLeft, center]
         default: center
+      offset?:
+        description: |
+          Offset the location of the title relative to it's position on the screen.
+        type: Offset
 
   ImageAsset:
     description: |
@@ -192,6 +214,17 @@ types:
         description: The transition out
         type: string
         enum: !include transitions/transitions.raml
+
+  Offset:
+    description: |
+      Offsets the position of an asset horizontally or vertically by a relative distance.
+    properties:
+      x?:
+        description: Offset an asset on the horizontal axis (left or right), range varies from -1 to 1.
+        type: number
+      y?:
+        description: Offset an asset on the vertical axis (up or down), range varies from -1 to 1.
+        type: number
 
   Output:
     description: The video output format
