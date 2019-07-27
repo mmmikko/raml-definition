@@ -32,13 +32,23 @@ printf "\n-- OneOfTitleAssetImageAssetVideoAsset to Asset - see commit: http://t
 printf "\n========================================= \n"
 
 # Ruby SDK
-
 openapi-generator generate -i ./build/api.oas3.json -g ruby -o ./build/ruby \
-                  --additional-properties=moduleName="Shotstack"
+    --additional-properties=moduleName="Shotstack"
 
 printf "\n========================================= \n"
 printf "\nRuby SDK Generated"
 printf "\n\nNow fix:"
 printf "\n-- strange class names in defaultApi - i.e. g_et_ender()\n"
 printf "\n-- OneOfTitleAssetImageAssetVideoAsset to Asset - see commit: http://tiny.cc/5i4w6y\n"
+printf "\n========================================= \n"
+
+# Node SDK
+openapi-generator generate -i ./build/api.oas3.json -g javascript -o ./build/node \
+    --additional-properties=emitModelMethods=true,licenseName="MIT",projectName="shotstack-sdk",useES6=false,usePromises=true
+
+printf "\n========================================= \n"
+printf "\nNode SDK Generated"
+printf "\n\nNow fix:"
+printf "\n-- strange class names in defaultApi - i.e. gETRender()\n"
+printf "\n-- OneOfTitleAssetImageAssetVideoAsset to Asset - see commit history"
 printf "\n========================================= \n"
