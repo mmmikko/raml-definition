@@ -67,8 +67,10 @@ types:
         description: |
           The URL of the mp3 audio file. The URL must be publicly accessible or
           include credentials.
-      effect:
+      effect?:
         description: The effect to apply to the audio file
+        type: string
+        enum: !include effects/soundtrack.raml
 
   Track:
     description: |
@@ -111,7 +113,7 @@ types:
   TitleAsset:
     description: |
       The TitleAsset clip type lets you create video titles from a text string and
-      apply styling.
+      apply styling and positioning.
     type: object
     properties:
       type:
@@ -126,6 +128,34 @@ types:
           Uses a preset to apply font properties and stylng to the title.
         type: string
         enum: !include styles/styles.raml
+      color?:
+        description: |
+          Set the text color using HTML color notation including hexidecimal, rgb, rgba and 
+          color name. Transparency is supported by setting the last two characters of a hex string, 
+          i.e. #ffffff33 or using rgba, i.e. rgba(255, 255, 255, 0.5).
+        type: string
+        default: white
+      size?:
+        description: |
+          Set the relative size of the text using predefined sizes from xx-small to xx-large.
+        type: string
+        enum: [xx-small, x-small, small, medium, large, x-large, xx-large]
+        default: medium
+      background?:
+        description: |
+          Apply a background color behind the text using HTML color notation with support for 
+          transparency. Useful for subtitles.
+        type: string
+      position?:
+        description: |
+          Place the title in one of nine predefined positions of the viewport.
+        type: string
+        enum: [top, topRight, right, bottomRight, bottom, bottomLeft, left, topLeft, center]
+        default: center
+      offset?:
+        description: |
+          Offset the location of the title relative to it's position on the screen.
+        type: Offset
 
   ImageAsset:
     description: |
@@ -185,6 +215,17 @@ types:
         type: string
         enum: !include transitions/transitions.raml
 
+  Offset:
+    description: |
+      Offsets the position of an asset horizontally or vertically by a relative distance.
+    properties:
+      x?:
+        description: Offset an asset on the horizontal axis (left or right), range varies from -1 to 1.
+        type: number
+      y?:
+        description: Offset an asset on the vertical axis (up or down), range varies from -1 to 1.
+        type: number
+
   Output:
     description: The video output format
     properties:
@@ -224,6 +265,8 @@ types:
         description: The id of the render task in UUID format
       owner:
         description: The owner id of the render task
+      url?:
+        description: The URL of the final video. This will only be available if status is done.
       data:
         type: Edit
         description: The timeline and output data to be rendered
@@ -259,7 +302,7 @@ types:
         example: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
         pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
     get:
-      description: Get the rendering status and details of a timeline by ID.
+      description: Get the rendering status, video url and details of a timeline by ID.
       securedBy: DeveloperKey
       responses:
         200:
@@ -273,6 +316,7 @@ types:
                   status: "rendering"
                   id: "2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7"
                   owner: "5ca6hu7s9k"
+                  url: "https://shotstack-api-v1-output.s3-ap-southeast-2.amazonaws.com/5ca6hu7s9k/2abd5c11-0f3d-4c6d-ba20-235fc9b8e8b7.mp4"
                   data: !include examples/timeline.raml
                   created: "2018-05-06T03:33:25.425Z"
                   updated: "2018-05-06T03:33:48.521Z"
