@@ -7,7 +7,9 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./build.sh",
+    "docs": "./node_modules/.bin/widdershins --search false --language_tabs 'ruby:Ruby' 'python:Python' --summary build/api.oas3.json -o build/docs.md"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,8 @@
   "homepage": "https://bitbucket.org/shotstack/raml-api-definition#readme",
   "dependencies": {
     "oas-raml-converter": "^1.1.43"
+  },
+  "devDependencies": {
+    "widdershins": "^3.6.7"
   }
 }

@@ -49,3 +49,17 @@ Note: RestUnited currently doesn't detect the response type for each endpoint. M
 ### Experimental
 
 See build.sh for local SDK and Docs generator
+
+Generate SDK's for Ruby, Node and PHP using:
+
+```
+npm run build
+```
+
+Note: The generated SDK's need some modifications to work correctly, and need to be copied to the respective project repos at this stage.
+
+Generate docs.md file using [Widdershins](https://github.com/Mermade/widdershins):
+
+```
+npm run docs
+```
